@@ -1,0 +1,8 @@
+---
+- hosts: 172.16.0.236
+  tasks:
+   - name: Create Directory
+     file:
+       path: ~/newDir1
+       mode: "0755"
+       state: directory
