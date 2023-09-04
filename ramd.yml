@@ -1,6 +1,6 @@
 --
 - name: Create a directory
-  hosts: 172.16.0.113
+  hosts: 172.16.0.194
   tasks:
     - name: Create a directory named "new_directory"
       file:
