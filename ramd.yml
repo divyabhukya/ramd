@@ -1,6 +1,6 @@
 ---
 - name: Create Directory
-  hosts: 172.16.0.194
+  hosts: 172.16.0.236
   become: yes
   tasks:
     - name: Create a directory
