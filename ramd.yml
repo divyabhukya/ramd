@@ -1,12 +1,25 @@
 ---
-- hosts: 172.16.0.113
+- hosts: 172.16.0.120
   tasks:
-  - name: Install Apache2
+  - name: Install Nginx
     apt:
-      name: apache2
+      name: nginx
       state: present
-  - name: Start Apache2
+
+  - name: Configure Nginx
+    lineinfile:
+      path: /etc/nginx/sites-available/default
+      line: server {
+            listen 80;
+            server_name localhost;
+            location / {
+                root /usr/share/nginx/html;
+            }
+          }
+      state: present
+
+  - name: Restart Nginx
     service:
-      name: apache2
-      state: started
-      enabled: yes
+      name: nginx
+      state: restarted
+
