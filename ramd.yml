@@ -1,25 +1,17 @@
 ---
-- hosts: 172.16.0.120
+- name: Install Nginx on Ubuntu
+  hosts: 172.16.0.120
+  become: yes  # This is required to run commands with root privileges
+
   tasks:
-  - name: Install Nginx
-    apt:
-      name: nginx
-      state: present
+    - name: Update APT package cache
+      apt:
+        update_cache: yes
+      become: yes
 
-  - name: Configure Nginx
-    lineinfile:
-      path: /etc/nginx/sites-available/default
-      line: server {
-            listen 80;
-            server_name localhost;
-            location / {
-                root /usr/share/nginx/html;
-            }
-          }
-      state: present
-
-  - name: Restart Nginx
-    service:
-      name: nginx
-      state: restarted
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+      become: yes
 
