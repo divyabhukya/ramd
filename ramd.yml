@@ -1,11 +1,11 @@
 ---
 - name: Create Directory
-  hosts: 172.16.0.236
+  hosts: 172.16.0.113
   become: yes
   tasks:
     - name: Create a directory
       file:
-        path: /home/divya/test1
+        path: /home/divya/ramd
         state: directory
         owner: divya
         group: divya
