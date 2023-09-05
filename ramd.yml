@@ -1,20 +1,12 @@
 ---
-- name: Install Nginx on Ubuntu
-  hosts: 172.16.0.120
+- name: Install Nginx
+  hosts: 172.16.0.120  # Replace 'your_target_host' with the actual host or group name
   become: yes
-  gather_facts: yes  # Ensure facts are gathered to determine the correct interpreter
-
-  vars:
-    ansible_python_interpreter: /usr/bin/python3  # Specify the Python 3 interpreter
 
   tasks:
-    - name: Update APT package cache
-      apt:
-        update_cache: yes
-      become: yes
-
     - name: Install Nginx
       apt:
         name: nginx
         state: present
-      become: yes
+      retries: 5
+      delay: 10
