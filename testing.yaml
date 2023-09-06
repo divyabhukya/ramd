@@ -1,6 +1,6 @@
 ---
 - name: Create Folder in Windows
-  hosts: 10.10.5.181  # Replace 'windows_hosts' with the name of your Windows host group or individual host.
+  hosts: 10.10.5.182  # Replace 'windows_hosts' with the name of your Windows host group or individual host.
   gather_facts: false
   tasks:
     - name: Create Folder
