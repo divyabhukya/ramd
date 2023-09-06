@@ -1,12 +1,7 @@
 ---
-- name: Install Nginx
-  hosts: 172.16.0.120  # Replace 'your_target_host' with the actual host or group name
-  become: yes
-
+- hosts: 172.16.0.122
   tasks:
-    - name: Install Nginx
-      apt:
-        name: nginx
-        state: present
-      retries: 5
-      delay: 10
+  - name: Create directory
+    ansible.windows.win_file:
+      path: C:\Windows\system32\my_directory
+      state: directory
