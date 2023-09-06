@@ -1,7 +1,44 @@
 ---
-- hosts: 172.16.0.122
+- name: Install Apache HTTP Server on Windows 10
+  hosts: 172.16.0.122 # Replace 'windows_hosts' with the name of your Windows host group or individual host.
+  gather_facts: yes
   tasks:
-  - name: Create directory
-    ansible.windows.win_file:
-      path: C:\Windows\system32\my_directory
-      state: directory
+    - name: Download Apache Installer
+      win_get_url:
+        url: https://www.apachelounge.com/download/VC15/binaries/httpd-2.4.48-win64-VC15.zip  # Replace with the URL of the Apache Windows installer.
+        dest: C:\Temp\httpd.zip  # Specify the download destination on the Windows host.
+      register: download_result
+
+    - name: Extract Apache Installer
+      win_unzip:
+        src: C:\Temp\httpd.zip
+        dest: C:\Apache  # Specify the destination directory for Apache installation.
+      when: download_result.changed
+
+    - name: Add Apache Bin Directory to PATH
+      win_environment:
+        name: PATH
+        value: C:\Apache\bin
+        state: present
+
+    - name: Start Apache Service
+      win_command: "httpd.exe -k install"
+      args:
+        chdir: C:\Apache\bin
+      async: 600  # Adjust the timeout as needed.
+      poll: 0
+      register: apache_install_result
+
+    - name: Wait for Apache Service to Start
+      async_status:
+        jid: "{{ apache_install_result.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: 60
+      delay: 10
+
+    - name: Check Apache Service Status
+      win_service:
+        name: Apache2.4
+        state: started
+      when: job_result.finished
