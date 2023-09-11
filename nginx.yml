@@ -4,10 +4,15 @@
   gather_facts: no     # Nginx installation doesn't require gathering facts
 
   tasks:
+    - name: Create C:\temp directory
+      win_file:
+        path: C:\temp
+        state: directory
+
     - name: Download Nginx MSI Installer
       win_get_url:
         url: https://nginx.org/download/nginx-1.22.1.msi
-        dest: C:\temp\nginx-1.22.1.msi  # You can change the destination path as needed
+        dest: C:\temp\nginx-1.22.1.msi
 
     - name: Install Nginx
       win_command: msiexec /i C:\temp\nginx-1.22.1.msi /quiet
