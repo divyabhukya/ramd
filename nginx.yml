@@ -1,0 +1,13 @@
+---
+- name: Install Nginx on Windows
+  hosts: 192.168.183.38 # Replace with the name of your Windows host group or the specific host
+  gather_facts: no     # Nginx installation doesn't require gathering facts
+
+  tasks:
+    - name: Download Nginx MSI Installer
+      win_get_url:
+        url: https://nginx.org/download/nginx-1.22.1.msi
+        dest: C:\temp\nginx-1.22.1.msi  # You can change the destination path as needed
+
+    - name: Install Nginx
+      win_command: msiexec /i C:\temp\nginx-1.22.1.msi /quiet
