@@ -1,20 +1,14 @@
 ---
-- name: Install Apache2 on Windows
-  hosts: 192.168.183.38
+- hosts: 192.168.183.38
+  become: yes
   tasks:
-    - name: Download Apache MSI Installer
-      win_get_url:
-        url: https://downloads.apache.org/httpd/httpd-2.4.48-win64-VS16.msi
-        dest: C:\temp\httpd-2.4.48-win64-VS16.msi
-        validate_certs: no
+  - name: Install Apache2
+    apt:
+      name: apache2
+      state: present
 
-    - name: Install Apache2
-      win_command: msiexec /i C:\temp\httpd-2.4.48-win64-VS16.msi /qn
-      args:
-        creates: C:\Program Files\Apache Group\Apache2
-
-    - name: Start Apache2 Service
-      win_service:
-        name: Apache2.4
-        start_mode: auto
-        state: started
+  - name: Start Apache2
+    service:
+      name: apache2
+      state: started
+      enabled: yes
